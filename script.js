@@ -223,6 +223,11 @@ function applyLang(lang) {
   document.querySelectorAll("#langSwitch button").forEach((b) => {
     b.classList.toggle("active", b.dataset.lang === lang);
   });
+  // Build the WhatsApp link with a localized pre-filled message.
+  const waCta = document.getElementById("waCta");
+  if (waCta && dict.wa_msg) {
+    waCta.href = "https://wa.me/972535241345?text=" + encodeURIComponent(dict.wa_msg);
+  }
   try { localStorage.setItem("eve_dresses_lang", lang); } catch (e) {}
 }
 
