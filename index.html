@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>EVE DRESSES · השכרת שמלות ערב</title>
+  <meta name="description" content="EVE DRESSES — השכרת שמלות ערב בעיצוב ספיר דבש." data-i18n="meta_desc" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Inter:wght@300;400;500;600&family=Heebo:wght@300;400;500;700&family=Noto+Sans:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <!-- Loading screen -->
+  <div id="loader" class="loader">
+    <div class="loader-inner">
+      <div class="loader-mark">EVE<span>DRESSES</span></div>
+      <div class="loader-bar"><div id="loaderFill" class="loader-fill"></div></div>
+      <div id="loaderPct" class="loader-pct">0%</div>
+    </div>
+  </div>
+
+  <!-- Fixed nav -->
+  <header class="nav">
+    <div class="nav-brand">EVE<span>DRESSES</span></div>
+    <nav class="nav-links">
+      <a href="#" data-target="services" data-i18n="nav_services">הקולקציה</a>
+      <a href="#" data-target="about" data-i18n="nav_about">אודות</a>
+      <a href="#" data-target="contact" data-i18n="nav_contact">הזמנה</a>
+    </nav>
+    <div class="lang-switch" id="langSwitch" role="group" aria-label="Language">
+      <button data-lang="he" class="active">HE</button>
+      <button data-lang="ru">RU</button>
+      <button data-lang="en">EN</button>
+    </div>
+  </header>
+
+  <!-- Scroll-driven video hero — offerings run OVER the clip as it scrubs -->
+  <section id="scrollVideo" class="scroll-video">
+    <div class="sticky-stage">
+      <canvas id="frameCanvas"></canvas>
+      <div class="hero-overlay">
+        <h1 class="hero-title">EVE<span>DRESSES</span></h1>
+        <p class="hero-name" data-i18n="brand_tagline">השכרת שמלות ערב</p>
+        <p class="hero-sub" data-i18n="hero_sub">גללו כדי לגלות</p>
+      </div>
+      <!-- Offering captions, synced to the video scrub (appear one after another) -->
+      <div class="hero-captions" id="heroCaptions">
+        <div class="hero-caption">
+          <span class="hero-caption-num">01</span>
+          <h3 class="hero-caption-name" data-i18n="svc_evening">קולקציית הערב</h3>
+          <p class="hero-caption-desc" data-i18n="svc_evening_d">שמלות ערב וגאלה נבחרות, מתחדשות בכל עונה — שיגרמו לכל מבט לעצור.</p>
+        </div>
+        <div class="hero-caption">
+          <span class="hero-caption-num">02</span>
+          <h3 class="hero-caption-name" data-i18n="svc_event">שמלה לכל אירוע</h3>
+          <p class="hero-caption-desc" data-i18n="svc_event_d">חתונה, בת מצווה, אירוסין או צילומים — הלוק המושלם לרגע שלך.</p>
+        </div>
+        <div class="hero-caption">
+          <span class="hero-caption-num">03</span>
+          <h3 class="hero-caption-name" data-i18n="svc_rent">השכרה חכמה</h3>
+          <p class="hero-caption-desc" data-i18n="svc_rent_d">כל הזוהר של שמלת יוקרה — בלי לקנות. לובשים, זוהרים, מחזירים.</p>
+        </div>
+        <div class="hero-caption">
+          <span class="hero-caption-num">04</span>
+          <h3 class="hero-caption-name" data-i18n="svc_fit">התאמה אישית</h3>
+          <p class="hero-caption-desc" data-i18n="svc_fit_d">מדידה וסטיילינג אישי שמתאימים את השמלה בדיוק עלייך.</p>
+        </div>
+        <div class="hero-caption">
+          <span class="hero-caption-num">05</span>
+          <h3 class="hero-caption-name" data-i18n="svc_sizes">מגוון מידות</h3>
+          <p class="hero-caption-desc" data-i18n="svc_sizes_d">מבחר רחב של גזרות ומידות — לכל גוף מחכה השמלה שלו.</p>
+        </div>
+        <div class="hero-caption">
+          <span class="hero-caption-num">06</span>
+          <h3 class="hero-caption-name" data-i18n="svc_book">הזמנה בדיירקט</h3>
+          <p class="hero-caption-desc" data-i18n="svc_book_d">בוחרים תאריך, משריינים שמלה, ומגיעים למדידה. פשוט וזוהר.</p>
+        </div>
+      </div>
+      <div class="scroll-hint"><span></span></div>
+    </div>
+  </section>
+
+  <!-- Sequential scroll-reveal: each panel appears over the woman, one by one -->
+  <main class="content">
+    <section class="reveal-scroll" id="reveal">
+      <div class="reveal-stage">
+
+        <div class="slide" data-slide="about">
+          <p class="eyebrow" data-i18n="about_eyebrow">02 — אודות</p>
+          <h2 class="slide-title" data-i18n="about_title">שמלה אחת. אינסוף רגעים.</h2>
+          <p class="slide-desc" data-i18n="about_lede">EVE DRESSES היא אטלייה להשכרת שמלות ערב בעיצובה של ספיר דבש. כל שמלה נבחרת בקפידה כדי שתרגישי יוצאת דופן ביום החשוב — כל הזוהר, בלי המחיר של רכישה.</p>
+        </div>
+
+        <div class="slide" data-slide="contact">
+          <p class="eyebrow" data-i18n="contact_eyebrow">03 — הזמנה</p>
+          <h2 class="slide-title" data-i18n="contact_title">מוכנה לבחור שמלה?</h2>
+          <div class="contact-details">
+            <div class="detail">
+              <span class="detail-label" data-i18n="label_ig">אינסטגרם</span>
+              <a class="detail-value" href="https://www.instagram.com/eve.dresses_/" target="_blank" rel="noopener" dir="ltr">@eve.dresses_</a>
+            </div>
+            <div class="detail">
+              <span class="detail-label" data-i18n="label_appt">מדידה</span>
+              <span class="detail-value" data-i18n="value_appt">בתיאום מראש</span>
+            </div>
+            <div class="detail">
+              <span class="detail-label" data-i18n="label_reply">מענה</span>
+              <span class="detail-value" data-i18n="value_reply">מהיר בהודעה בדיירקט</span>
+            </div>
+          </div>
+          <a class="cta" id="igCta" href="https://www.instagram.com/eve.dresses_/" target="_blank" rel="noopener" data-i18n="contact_cta">להזמנה בהודעה באינסטגרם</a>
+        </div>
+
+        <!-- progress dots -->
+        <div class="reveal-dots" id="revealDots" aria-hidden="true"></div>
+      </div>
+    </section>
+
+    <footer class="footer">
+      <span>© <span id="year"></span> EVE DRESSES</span>
+      <span data-i18n="footer_note">השכרת שמלות ערב · בעיצוב ספיר דבש</span>
+    </footer>
+  </main>
+
+  <script src="i18n.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>

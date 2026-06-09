@@ -1,0 +1,248 @@
+:root {
+  --bg: #ece3d6;        /* warm cream — blends with the video's letterbox bars */
+  --fg: #2b2520;        /* espresso text on light surfaces (AA on cream) */
+  --muted: #6b6052;     /* warm taupe, AA for small text on cream */
+  --accent: #b76e79;    /* rose-gold — decorative + over-video accent */
+  --accent-deep: #8c3d4b;/* deeper rose — accent text on light (AA) */
+  --panel: #f3ece1;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+html { scroll-behavior: smooth; overflow-x: hidden; }
+
+body {
+  background: var(--bg);
+  color: var(--fg);
+  font-family: "Heebo", "Inter", system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ---------- Brand wordmark (EVE / DRESSES stacked) ---------- */
+.loader-mark span, .nav-brand span, .hero-title span {
+  display: block;
+  font-family: "Inter", sans-serif;
+  font-weight: 400;
+}
+
+/* ---------- Loader ---------- */
+.loader {
+  position: fixed; inset: 0; z-index: 1000;
+  background: var(--bg);
+  display: flex; align-items: center; justify-content: center;
+  transition: opacity .8s ease, visibility .8s ease;
+}
+.loader.hidden { opacity: 0; visibility: hidden; }
+.loader-inner { text-align: center; width: min(320px, 70vw); }
+.loader-mark {
+  font-family: "Playfair Display", serif;
+  font-size: clamp(40px, 8vw, 76px);
+  letter-spacing: .14em;
+  font-weight: 600; line-height: 1;
+  color: var(--fg);
+}
+.loader-mark span {
+  font-size: clamp(12px, 2vw, 17px); letter-spacing: .55em;
+  margin-top: 8px; color: var(--accent-deep);
+  padding-inline-start: .55em;
+}
+.loader-bar {
+  margin: 28px 0 14px; height: 1px; width: 100%;
+  background: rgba(43,37,32,.18); overflow: hidden;
+}
+.loader-fill { height: 100%; width: 0%; background: var(--accent); transition: width .2s ease; }
+.loader-pct { font-size: 12px; letter-spacing: .3em; color: var(--muted); }
+
+/* ---------- Nav ---------- */
+.nav {
+  position: fixed; top: 0; inset-inline: 0; z-index: 100;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 22px clamp(20px, 5vw, 64px);
+  mix-blend-mode: difference; color: #fff;
+}
+.nav-brand {
+  font-family: "Playfair Display", serif;
+  font-size: 24px; letter-spacing: .22em; font-weight: 600; line-height: .95;
+}
+.nav-brand span {
+  font-size: 9px; letter-spacing: .5em; opacity: .85; margin-top: 3px;
+  padding-inline-start: .5em;
+}
+.nav-links { display: flex; gap: clamp(16px, 3vw, 38px); }
+.nav-links a {
+  color: inherit; text-decoration: none; font-size: 13px;
+  letter-spacing: .12em; opacity: .85; transition: opacity .3s;
+}
+.nav-links a:hover { opacity: 1; }
+
+.lang-switch { display: flex; gap: 4px; }
+.lang-switch button {
+  background: transparent; border: 0; cursor: pointer; color: inherit;
+  font-family: "Inter", sans-serif; font-size: 12px; letter-spacing: .12em;
+  padding: 6px 8px; opacity: .55; transition: opacity .3s; line-height: 1;
+}
+.lang-switch button:hover { opacity: .9; }
+.lang-switch button.active { opacity: 1; border-bottom: 1px solid currentColor; }
+
+/* ---------- Scroll video ---------- */
+/* Canvas is a FIXED background for the whole page. The video scrubs while you
+   scroll through .scroll-video; afterwards the last frame stays as the
+   background and the content panels appear over it one by one. */
+#frameCanvas {
+  position: fixed; inset: 0; width: 100%; height: 100%;
+  display: block; z-index: 0; background: var(--bg);
+}
+.scroll-video { position: relative; height: 720vh; z-index: 1; }
+.sticky-stage {
+  position: sticky; top: 0; height: 100vh; width: 100%;
+  overflow: hidden; background: transparent; pointer-events: none;
+}
+
+.hero-overlay {
+  position: absolute; inset: 0; z-index: 5;
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  text-align: center; pointer-events: none;
+  background: radial-gradient(ellipse at 50% 42%, rgba(28,20,18,.10) 30%, rgba(28,20,18,.52) 100%);
+}
+.hero-title {
+  font-family: "Playfair Display", serif;
+  font-size: clamp(52px, 13vw, 168px);
+  font-weight: 600; letter-spacing: .1em; line-height: .96;
+  color: #fff; text-shadow: 0 6px 44px rgba(0,0,0,.6);
+}
+.hero-title span {
+  font-size: clamp(15px, 3.4vw, 34px); letter-spacing: .62em;
+  margin-top: 12px; color: #fff; padding-inline-start: .62em;
+  text-shadow: 0 4px 30px rgba(0,0,0,.7);
+}
+.hero-name {
+  margin-top: 22px; font-size: clamp(14px, 2vw, 22px);
+  letter-spacing: .32em; color: rgba(255,255,255,.95);
+  font-weight: 400; text-shadow: 0 2px 22px rgba(0,0,0,.75);
+}
+.hero-sub {
+  margin-top: 16px; font-size: clamp(12px, 1.4vw, 15px);
+  letter-spacing: .35em; color: rgba(255,255,255,.82);
+  text-shadow: 0 2px 18px rgba(0,0,0,.8);
+}
+/* Offering captions running over the video as it scrubs */
+.hero-captions { position: absolute; inset: 0; z-index: 7; pointer-events: none; }
+.hero-caption {
+  position: absolute; inset: 0;
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  text-align: center; gap: 16px; padding: 0 clamp(22px, 8vw, 160px);
+  opacity: 0; transform: translateY(34px) scale(.99);
+  transition: opacity .5s cubic-bezier(.22,.61,.36,1), transform .55s cubic-bezier(.22,.61,.36,1);
+  background: radial-gradient(ellipse at center, rgba(24,16,14,.46) 0%, rgba(24,16,14,.12) 60%, transparent 100%);
+}
+.hero-caption.active { opacity: 1; transform: none; }
+.hero-caption-num {
+  font-family: "Playfair Display", serif; font-size: clamp(16px, 2vw, 24px);
+  color: #f0c9cf; letter-spacing: .35em;
+  text-shadow: 0 2px 18px rgba(0,0,0,.7);
+}
+.hero-caption-name {
+  font-family: "Playfair Display", serif; font-weight: 600;
+  font-size: clamp(34px, 6.5vw, 84px); line-height: 1.05; max-width: 16ch;
+  color: #fff; text-shadow: 0 8px 48px rgba(0,0,0,.78);
+}
+.hero-caption-desc {
+  font-size: clamp(16px, 2.1vw, 23px); color: #fff;
+  font-weight: 300; line-height: 1.7; max-width: 52ch;
+  text-shadow: 0 2px 24px rgba(0,0,0,.9);
+}
+
+.scroll-hint {
+  position: absolute; bottom: 34px; left: 50%; transform: translateX(-50%);
+  width: 1px; height: 48px; background: rgba(255,255,255,.45); overflow: hidden; z-index: 6;
+}
+.scroll-hint span {
+  display: block; width: 100%; height: 40%; background: #fff;
+  animation: drop 1.8s cubic-bezier(.7,0,.3,1) infinite;
+}
+@keyframes drop {
+  0% { transform: translateY(-100%); }
+  100% { transform: translateY(250%); }
+}
+
+/* ---------- Content (over the fixed background) ---------- */
+.content { position: relative; z-index: 10; background: transparent; }
+
+/* ===== Sequential scroll reveal — one slide at a time over the last frame ===== */
+.reveal-scroll { position: relative; z-index: 10; }
+.reveal-stage { position: sticky; top: 0; height: 100vh; overflow: hidden; }
+.reveal-stage::before {
+  content: ""; position: absolute; inset: 0; z-index: 0;
+  background: radial-gradient(ellipse at center, rgba(20,13,12,.62) 0%, rgba(20,13,12,.5) 55%, rgba(20,13,12,.72) 100%);
+}
+.slide {
+  position: absolute; inset: 0; z-index: 1;
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  text-align: center; gap: 18px;
+  padding: 0 clamp(22px, 8vw, 160px);
+  opacity: 0; transform: translateY(48px) scale(.985);
+  transition: opacity .5s cubic-bezier(.22,.61,.36,1), transform .55s cubic-bezier(.22,.61,.36,1);
+  pointer-events: none; will-change: opacity, transform;
+}
+.slide.active { opacity: 1; transform: none; pointer-events: auto; }
+.slide .eyebrow { color: #f0c9cf; margin: 0; text-shadow: 0 2px 16px rgba(0,0,0,.6); }
+.slide-title {
+  font-family: "Playfair Display", serif; font-weight: 600;
+  font-size: clamp(40px, 8vw, 104px); line-height: 1.04; max-width: 18ch;
+  color: #fff; text-shadow: 0 8px 48px rgba(0,0,0,.7);
+}
+.slide-desc {
+  font-size: clamp(16px, 2.1vw, 23px); color: rgba(255,252,248,.96);
+  font-weight: 300; line-height: 1.7; max-width: 52ch;
+  text-shadow: 0 2px 22px rgba(0,0,0,.8);
+}
+.slide .contact-details { justify-content: center; margin: 30px 0 36px; }
+.slide .detail-value { color: #fff; text-shadow: 0 2px 16px rgba(0,0,0,.7); }
+.slide .cta { align-self: center; color: #fff; border-color: var(--accent); backdrop-filter: blur(2px); }
+.slide .cta:hover { background: var(--accent); color: #fff; }
+
+/* progress dots */
+.reveal-dots {
+  position: absolute; z-index: 3; top: 50%; transform: translateY(-50%);
+  inset-inline-start: clamp(16px, 3vw, 40px);
+  display: flex; flex-direction: column; gap: 12px;
+}
+.reveal-dots button {
+  width: 8px; height: 8px; padding: 0; border: 0; border-radius: 50%;
+  background: rgba(255,255,255,.4); cursor: pointer; transition: all .3s;
+}
+.reveal-dots button.on { background: var(--accent); transform: scale(1.4); }
+@media (max-width: 640px) { .reveal-dots { display: none; } }
+
+.eyebrow { font-size: 12px; letter-spacing: .35em; color: var(--accent-deep); margin-bottom: 22px; }
+
+.contact-details {
+  display: flex; flex-wrap: wrap; gap: clamp(28px, 5vw, 64px);
+  margin: 36px 0 40px;
+}
+.detail { display: flex; flex-direction: column; gap: 8px; }
+.detail-label { font-size: 12px; letter-spacing: .25em; color: #f0c9cf; text-transform: uppercase; text-shadow: 0 2px 14px rgba(0,0,0,.6); }
+.detail-value { font-size: clamp(16px, 1.8vw, 19px); color: var(--fg); font-weight: 300; text-decoration: none; }
+a.detail-value:hover { color: var(--accent); }
+
+.cta {
+  align-self: flex-start; margin-top: 12px;
+  display: inline-block; padding: 16px 42px;
+  border: 1px solid var(--accent); color: var(--accent);
+  text-decoration: none; letter-spacing: .2em; font-size: 14px;
+  transition: background .35s, color .35s;
+}
+.cta:hover { background: var(--accent); color: #fff; }
+
+.footer {
+  display: flex; justify-content: space-between; flex-wrap: wrap; gap: 12px;
+  padding: 40px clamp(22px, 8vw, 140px);
+  font-size: 12px; letter-spacing: .15em; color: var(--muted);
+  border-top: 1px solid rgba(43,37,32,.12);
+  background: var(--bg);
+}
+
+@media (max-width: 640px) {
+  .nav-links { gap: 16px; }
+  .nav-links a { font-size: 11px; }
+}
