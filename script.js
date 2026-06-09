@@ -17,11 +17,15 @@ let currentFrame = -1;
 
 /* ---------- Canvas sizing (contain-fit, retina-aware) ---------- */
 function resizeCanvas() {
+  const w = window.innerWidth, h = window.innerHeight;
+  // Ignore degenerate sizes some browsers report mid-resize (would shrink the
+  // backing store and leave the hero blank until the next scroll).
+  if (w < 50 || h < 50) return;
   const dpr = Math.min(window.devicePixelRatio || 1, 2);
-  canvas.width = Math.floor(window.innerWidth * dpr);
-  canvas.height = Math.floor(window.innerHeight * dpr);
-  canvas.style.width = window.innerWidth + "px";
-  canvas.style.height = window.innerHeight + "px";
+  canvas.width = Math.floor(w * dpr);
+  canvas.height = Math.floor(h * dpr);
+  canvas.style.width = w + "px";
+  canvas.style.height = h + "px";
   currentFrame = -1; // force redraw
   drawFrame(frameForScroll());
 }
@@ -236,12 +240,18 @@ function setupLang() {
 
 /* ---------- Init ---------- */
 window.addEventListener("scroll", onScroll, { passive: true });
+let resizeRAF = 0;
 window.addEventListener("resize", () => {
-  if (revealSection) revealSection.style.height = (slideCount * SEG + 1) * 100 + "vh";
-  activeSlide = -1; // force re-evaluation after layout change
-  resizeCanvas();
-  updateHeroCaptions();
-  updateReveal();
+  // Run after layout settles so we read the final viewport size, not a
+  // transient one — then force the canvas to redraw the current frame.
+  cancelAnimationFrame(resizeRAF);
+  resizeRAF = requestAnimationFrame(() => {
+    if (revealSection) revealSection.style.height = (slideCount * SEG + 1) * 100 + "vh";
+    activeSlide = -1; // force re-evaluation after layout change
+    resizeCanvas();
+    updateHeroCaptions();
+    updateReveal();
+  });
 });
 document.getElementById("year").textContent = new Date().getFullYear();
 setupLang();
